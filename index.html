@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tools — Matthew Facciani</title>
+  <meta name="description" content="Free, research-backed tools to help you understand your biases, audit your network, and navigate the information landscape. By Matthew Facciani, PhD."/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f4ef;
+      --paper: #fffdf9;
+      --ink: #1c1917;
+      --ink-mid: #57534e;
+      --ink-light: #a8a29e;
+      --rule: #e7e2db;
+      --accent: #c2410c;
+      --accent-light: #fff1ec;
+    }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(28,25,23,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 64px 28px 60px;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    /* Nav */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 64px;
+      animation: rise 0.5s ease both;
+    }
+
+    .nav-home {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-home em { font-style: italic; color: var(--accent); }
+
+    .nav-links { display: flex; gap: 20px; align-items: center; }
+
+    .nav-link {
+      font-size: 13px;
+      color: var(--ink-mid);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .nav-link:hover { color: var(--ink); border-color: var(--rule); }
+    .nav-link.active { color: var(--ink); font-weight: 500; }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 56px;
+      animation: rise 0.5s 0.08s ease both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 20px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1.5px;
+      background: var(--ink-light);
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(36px, 6vw, 54px);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    h1 em { font-style: italic; color: var(--accent); }
+
+    .hero-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .hero-divider-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .hero-divider-line { height: 1px; background: var(--rule); flex: 1; }
+
+    .hero-desc {
+      font-size: 16px;
+      line-height: 1.75;
+      font-weight: 300;
+      color: var(--ink-mid);
+      max-width: 520px;
+    }
+
+    .hero-desc a {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      color: var(--ink-mid);
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+    }
+
+    .hero-desc a:hover { color: var(--ink); }
+
+    /* Cluster */
+    .cluster { margin-bottom: 52px; animation: rise 0.5s 0.16s ease both; }
+    .cluster + .cluster { animation-delay: 0.24s; }
+
+    .cluster-header {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+
+    .cluster-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      white-space: nowrap;
+    }
+
+    .cluster-rule { height: 1px; background: var(--rule); flex: 1; }
+
+    .cluster-desc {
+      font-size: 13.5px;
+      font-weight: 300;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+      line-height: 1.6;
+      max-width: 500px;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 10px;
+    }
+
+    .tool-card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 20px 22px;
+      transition: border-color 0.2s, transform 0.18s, box-shadow 0.18s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .tool-card:hover { transform: translateY(-3px); }
+    .tool-card.live:hover { border-color: var(--ink-mid); box-shadow: 0 4px 18px rgba(28,25,23,0.07); }
+    .tool-card.soon { opacity: 0.6; cursor: default; }
+
+    .tool-card::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 12px; bottom: 12px;
+      width: 2px;
+      border-radius: 2px;
+    }
+
+    .tool-card.live::after { background: var(--ink); }
+    .tool-card.soon::after { background: var(--accent); }
+
+    .tool-status { font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; }
+    .tool-card.live .tool-status { color: var(--ink-light); }
+    .tool-card.soon .tool-status { color: var(--accent); }
+
+    .tool-name { font-family: 'Instrument Serif', Georgia, serif; font-size: 17px; color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
+    .tool-desc { font-size: 12.5px; font-weight: 300; color: var(--ink-mid); line-height: 1.55; }
+
+    /* IgnoreMore callout */
+    .ignorermore-callout {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 52px;
+      animation: rise 0.5s 0.30s ease both;
+    }
+
+    .callout-left { display: flex; flex-direction: column; gap: 6px; }
+
+    .callout-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-light); }
+
+    .callout-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; color: var(--ink); }
+    .callout-title em { font-style: italic; color: var(--accent); }
+
+    .callout-desc { font-size: 13.5px; font-weight: 300; color: var(--ink-mid); line-height: 1.6; max-width: 400px; }
+
+    .callout-btn {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 11px 22px;
+      border-radius: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.18s, transform 0.14s;
+      flex-shrink: 0;
+    }
+
+    .callout-btn:hover { background: #2c2825; transform: translateY(-1px); }
+
+    /* Newsletter */
+    .notify-section {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 28px 32px;
+      animation: rise 0.5s 0.36s ease both;
+      margin-bottom: 48px;
+    }
+
+    .notify-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; margin-bottom: 6px; }
+    .notify-desc { font-size: 14px; font-weight: 300; color: var(--ink-mid); margin-bottom: 20px; line-height: 1.65; max-width: 480px; }
+
+    .notify-btn {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 12px 26px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.18s, transform 0.14s;
+    }
+
+    .notify-btn:hover { background: #2c2825; transform: translateY(-1px); }
+    .notify-note { font-size: 11.5px; color: var(--ink-light); margin-top: 12px; font-weight: 300; }
+
+    /* Footer */
+    .site-footer {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 20px 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-top: 1px solid var(--rule);
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-credit { font-size: 12px; color: var(--ink-light); line-height: 1.7; }
+    .footer-credit a { color: var(--ink-mid); text-decoration: none; border-bottom: 1px solid var(--rule); }
+    .footer-credit a:hover { color: var(--ink); }
+    .footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .footer-link { font-size: 12px; font-weight: 500; color: var(--ink-mid); text-decoration: none; border-bottom: 1px solid var(--rule); }
+    .footer-link:hover { color: var(--ink); border-color: var(--ink); }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 48px 20px 40px; }
+      .nav-links { gap: 14px; }
+      .tools-grid { grid-template-columns: 1fr 1fr; }
+      .ignorermore-callout { flex-direction: column; align-items: flex-start; }
+      .notify-section { padding: 22px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="nav-home" href="https://matthewfacciani.com" target="_blank">Matthew <em>Facciani</em></a>
+    <div class="nav-links">
+      <a class="nav-link" href="https://matthewfacciani.com" target="_blank">Home</a>
+      <a class="nav-link" href="https://matthewfacciani.substack.com" target="_blank">Newsletter</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="eyebrow">The Misguided Research Lab</div>
+    <h1>Free tools for<br/><em>thinking clearer.</em></h1>
+    <div class="hero-divider">
+      <div class="hero-divider-dot"></div>
+      <div class="hero-divider-line"></div>
+    </div>
+    <p class="hero-desc">
+      Practical, research-backed tools to help you understand your biases, audit your social network, and navigate the information landscape. All free. All grounded in the research behind <a href="https://cup.columbia.edu/book/misguided/9780231205054" target="_blank">Misguided</a>.
+    </p>
+  </div>
+
+  <!-- Understand cluster -->
+  <div class="cluster">
+    <div class="cluster-header">
+      <div class="cluster-label">Understand yourself</div>
+      <div class="cluster-rule"></div>
+    </div>
+    <p class="cluster-desc">Reflect on your identities, biases, and the social worlds that shape what you believe.</p>
+    <div class="tools-grid">
+      <a class="tool-card live" href="https://matthewfacciani.github.io/identity-map/" target="_blank">
+        <div class="tool-status">Live</div>
+        <div class="tool-name">Identity Map</div>
+        <div class="tool-desc">A visual tool to help you understand your cognitive lenses and social identities.</div>
+      </a>
+      <a class="tool-card live" href="https://matthewfacciani.github.io/network-diversity-audit/" target="_blank">
+        <div class="tool-status">Live</div>
+        <div class="tool-name">Network Diversity Audit</div>
+        <div class="tool-desc">Data-driven insights into the diversity of your information ecosystem.</div>
+      </a>
+      <div class="tool-card soon">
+        <div class="tool-status">Coming soon</div>
+        <div class="tool-name">More tools</div>
+        <div class="tool-desc">More tools for understanding bias and misinformation in the works.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IgnoreMore callout -->
+  <div class="ignorermore-callout">
+    <div class="callout-left">
+      <div class="callout-label">Looking for the Critical Ignoring Companion?</div>
+      <div class="callout-title"><em>Ignore</em>More.com</div>
+      <div class="callout-desc">A dedicated suite of tools for filtering noise and protecting your attention online. Grounded in critical ignoring research.</div>
+    </div>
+    <a class="callout-btn" href="https://ignoremore.com" target="_blank">Visit IgnoreMore →</a>
+  </div>
+
+  <!-- Newsletter -->
+  <div class="notify-section">
+    <div class="notify-title">Stay in the loop</div>
+    <div class="notify-desc">New tools are announced in the Misguided newsletter. Subscribe and you'll be the first to know when something launches.</div>
+    <a class="notify-btn" href="https://matthewfacciani.substack.com" target="_blank">Subscribe to Misguided →</a>
+    <div class="notify-note">No spam. Just research, tools, and science communication from Matthew Facciani, PhD.</div>
+  </div>
+
+</div>
+
+<div class="site-footer">
+  <div class="footer-credit">
+    <a href="https://www.matthewfacciani.com" target="_blank">Matthew Facciani, PhD</a><br>
+    Tools grounded in peer-reviewed research
+  </div>
+  <div class="footer-links">
+    <a class="footer-link" href="https://matthewfacciani.substack.com" target="_blank">📬 Newsletter</a>
+    <a class="footer-link" href="https://cup.columbia.edu/book/misguided/9780231205054" target="_blank">📖 Misguided</a>
+    <a class="footer-link" href="https://ignoremore.com/" target="_blank">🔇 IgnoreMore</a>
+  </div>
+</div>
+
+</body>
+</html>
