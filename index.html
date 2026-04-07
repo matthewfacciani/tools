@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tools — Matthew Facciani</title>
-  <meta name="description" content="Free, research-backed tools to help you understand your biases, audit your network, and navigate the information landscape. By Matthew Facciani, PhD."/>
+  <title>The Misguided Toolkit — Matthew Facciani</title>
+  <meta name="description" content="Free, research-backed tools to help you understand how your identities and networks shape what you believe. By Matthew Facciani, PhD."/>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,6 +18,19 @@
       --rule: #e7e2db;
       --accent: #c2410c;
       --accent-light: #fff1ec;
+      --dot-opacity: 0.06;
+    }
+
+    html.dark {
+      --bg: #0f0e0c;
+      --paper: #1a1816;
+      --ink: #f0ece6;
+      --ink-mid: #a8a29e;
+      --ink-light: #57534e;
+      --rule: #2c2825;
+      --accent: #e05a20;
+      --accent-light: rgba(194,65,12,0.15);
+      --dot-opacity: 0.04;
     }
 
     body {
@@ -27,13 +40,14 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background 0.3s, color 0.3s;
     }
 
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(circle, rgba(28,25,23,0.06) 1px, transparent 1px);
+      background-image: radial-gradient(circle, rgba(28,25,23,var(--dot-opacity)) 1px, transparent 1px);
       background-size: 28px 28px;
       pointer-events: none;
       z-index: 0;
@@ -67,6 +81,8 @@
 
     .nav-home em { font-style: italic; color: var(--accent); }
 
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+
     .nav-links { display: flex; gap: 20px; align-items: center; }
 
     .nav-link {
@@ -78,7 +94,24 @@
     }
 
     .nav-link:hover { color: var(--ink); border-color: var(--rule); }
-    .nav-link.active { color: var(--ink); font-weight: 500; }
+
+    /* Theme toggle */
+    .theme-toggle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle:hover { border-color: var(--ink-light); }
+    .theme-toggle svg { width: 15px; height: 15px; }
 
     /* Hero */
     .hero {
@@ -148,7 +181,6 @@
 
     /* Cluster */
     .cluster { margin-bottom: 52px; animation: rise 0.5s 0.16s ease both; }
-    .cluster + .cluster { animation-delay: 0.24s; }
 
     .cluster-header {
       display: flex;
@@ -203,7 +235,7 @@
       position: absolute;
       left: 0; top: 12px; bottom: 12px;
       width: 2px;
-      border-radius: 2px;
+      border-radius: 0;
     }
 
     .tool-card.live::after { background: var(--ink); }
@@ -214,7 +246,17 @@
     .tool-card.soon .tool-status { color: var(--accent); }
 
     .tool-name { font-family: 'Instrument Serif', Georgia, serif; font-size: 17px; color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
-    .tool-desc { font-size: 12.5px; font-weight: 300; color: var(--ink-mid); line-height: 1.55; }
+    .tool-desc { font-size: 12.5px; font-weight: 300; color: var(--ink-mid); line-height: 1.55; margin-bottom: 10px; }
+
+    .tool-insight {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--accent);
+      font-style: italic;
+      line-height: 1.5;
+      padding-top: 8px;
+      border-top: 1px solid var(--rule);
+    }
 
     /* IgnoreMore callout */
     .ignorermore-callout {
@@ -232,12 +274,9 @@
     }
 
     .callout-left { display: flex; flex-direction: column; gap: 6px; }
-
     .callout-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-light); }
-
     .callout-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; color: var(--ink); }
     .callout-title em { font-style: italic; color: var(--accent); }
-
     .callout-desc { font-size: 13.5px; font-weight: 300; color: var(--ink-mid); line-height: 1.6; max-width: 400px; }
 
     .callout-btn {
@@ -266,7 +305,7 @@
       margin-bottom: 48px;
     }
 
-    .notify-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; margin-bottom: 6px; }
+    .notify-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; margin-bottom: 6px; color: var(--ink); }
     .notify-desc { font-size: 14px; font-weight: 300; color: var(--ink-mid); margin-bottom: 20px; line-height: 1.65; max-width: 480px; }
 
     .notify-btn {
@@ -312,11 +351,24 @@
     }
 
     @media (max-width: 600px) {
-      .wrap { padding: 48px 20px 40px; }
-      .nav-links { gap: 14px; }
-      .tools-grid { grid-template-columns: 1fr 1fr; }
-      .ignorermore-callout { flex-direction: column; align-items: flex-start; }
-      .notify-section { padding: 22px 20px; }
+      .wrap { padding: 40px 18px 40px; }
+      .topbar { margin-bottom: 44px; }
+      .nav-links { gap: 12px; }
+      .nav-link { font-size: 12px; }
+      .nav-right { gap: 10px; }
+      h1 { font-size: clamp(32px, 9vw, 48px); }
+      .hero-desc { font-size: 15px; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .tool-card { padding: 18px 18px; }
+      .ignorermore-callout { flex-direction: column; align-items: flex-start; padding: 20px 18px; }
+      .notify-section { padding: 22px 18px; }
+      .site-footer { flex-direction: column; align-items: flex-start; padding: 20px 18px 36px; }
+      .footer-links { gap: 12px; }
+    }
+
+    @media (max-width: 380px) {
+      .nav-links { display: none; }
+      h1 { font-size: 30px; }
     }
   </style>
 </head>
@@ -326,61 +378,70 @@
 
   <div class="topbar">
     <a class="nav-home" href="https://matthewfacciani.com" target="_blank">Matthew <em>Facciani</em></a>
-    <div class="nav-links">
-      <a class="nav-link" href="https://matthewfacciani.com" target="_blank">Home</a>
-      <a class="nav-link" href="https://matthewfacciani.substack.com" target="_blank">Newsletter</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a class="nav-link" href="https://matthewfacciani.com" target="_blank">Home</a>
+        <a class="nav-link" href="https://matthewfacciani.substack.com" target="_blank">Newsletter</a>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-mid);">
+          <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-mid);display:none;">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
     </div>
   </div>
 
   <div class="hero">
-    <div class="eyebrow">The Misguided Research Lab</div>
+    <div class="eyebrow">The Misguided Toolkit</div>
     <h1>Free tools for<br/><em>thinking clearer.</em></h1>
     <div class="hero-divider">
       <div class="hero-divider-dot"></div>
       <div class="hero-divider-line"></div>
     </div>
     <p class="hero-desc">
-      Practical, research-backed tools to help you understand your biases, audit your social network, and navigate the information landscape. All free. All grounded in the research behind <a href="https://cup.columbia.edu/book/misguided/9780231205054" target="_blank">Misguided</a>.
+      What we believe is shaped by who we are and who we surround ourselves with. These free, research-backed tools help you see those influences clearly, so you can navigate the information landscape more intentionally. Grounded in the research behind <a href="https://cup.columbia.edu/book/misguided/9780231205054" target="_blank">Misguided</a>.
     </p>
   </div>
 
-  <!-- Understand cluster -->
   <div class="cluster">
     <div class="cluster-header">
       <div class="cluster-label">Understand yourself</div>
       <div class="cluster-rule"></div>
     </div>
-    <p class="cluster-desc">Reflect on your identities, biases, and the social worlds that shape what you believe.</p>
+    <p class="cluster-desc">Your identities and networks shape what you believe more than you might realize. These tools make those influences visible.</p>
     <div class="tools-grid">
       <a class="tool-card live" href="https://matthewfacciani.github.io/identity-map/" target="_blank">
         <div class="tool-status">Live</div>
         <div class="tool-name">Identity Map</div>
-        <div class="tool-desc">A visual tool to help you understand your cognitive lenses and social identities.</div>
+        <div class="tool-desc">Visualize the social identities you hold, and recognize how they can influence what you believe and how you interpret information.</div>
+        <div class="tool-insight">Our identities act as lenses. Seeing them clearly is the first step to thinking more independently.</div>
       </a>
       <a class="tool-card live" href="https://matthewfacciani.github.io/network-diversity-audit/" target="_blank">
         <div class="tool-status">Live</div>
         <div class="tool-name">Network Diversity Audit</div>
-        <div class="tool-desc">Data-driven insights into the diversity of your information ecosystem.</div>
+        <div class="tool-desc">Assess how diverse your close network really is, and understand how the people around you shape the information that reaches you.</div>
+        <div class="tool-insight">A homogeneous network is an invisible bias. This tool helps you see it.</div>
       </a>
       <div class="tool-card soon">
         <div class="tool-status">Coming soon</div>
         <div class="tool-name">More tools</div>
-        <div class="tool-desc">More tools for understanding bias and misinformation in the works.</div>
+        <div class="tool-desc">More tools for understanding bias and building misinformation resilience in the works.</div>
       </div>
     </div>
   </div>
 
-  <!-- IgnoreMore callout -->
   <div class="ignorermore-callout">
     <div class="callout-left">
       <div class="callout-label">Looking for the Critical Ignoring Companion?</div>
       <div class="callout-title"><em>Ignore</em>More.com</div>
       <div class="callout-desc">A dedicated suite of tools for filtering noise and protecting your attention online. Grounded in critical ignoring research.</div>
     </div>
-    <a class="callout-btn" href="https://ignoremore.com" target="_blank">Visit IgnoreMore →</a>
+    <a class="callout-btn" href="https://ignoremore.com/" target="_blank">Visit IgnoreMore →</a>
   </div>
 
-  <!-- Newsletter -->
   <div class="notify-section">
     <div class="notify-title">Stay in the loop</div>
     <div class="notify-desc">New tools are announced in the Misguided newsletter. Subscribe and you'll be the first to know when something launches.</div>
@@ -401,6 +462,20 @@
     <a class="footer-link" href="https://ignoremore.com/" target="_blank">🔇 IgnoreMore</a>
   </div>
 </div>
+
+<script>
+  var toggle = document.getElementById('theme-toggle');
+  var sun = document.getElementById('icon-sun');
+  var moon = document.getElementById('icon-moon');
+  var dark = false;
+
+  toggle.addEventListener('click', function() {
+    dark = !dark;
+    document.documentElement.classList.toggle('dark', dark);
+    sun.style.display = dark ? 'none' : 'block';
+    moon.style.display = dark ? 'block' : 'none';
+  });
+</script>
 
 </body>
 </html>
