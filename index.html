@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Misguided Toolkit — Matthew Facciani</title>
-  <meta name="description" content="Free, research-backed tools to help you understand how your identities and networks shape what you believe. By Matthew Facciani, PhD."/>
+  <title>The Misguided Toolkit · Matthew Facciani</title>
+  <meta name="description" content="Free, research-backed tools for navigating misinformation, understanding bias, and protecting your attention online. By Matthew Facciani."/>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f7f4ef;
-      --paper: #fffdf9;
+      --bg: #f5f0e8;
+      --paper: #fdfaf5;
       --ink: #1c1917;
       --ink-mid: #57534e;
       --ink-light: #a8a29e;
@@ -345,6 +345,9 @@
     .footer-link { font-size: 12px; font-weight: 500; color: var(--ink-mid); text-decoration: none; border-bottom: 1px solid var(--rule); }
     .footer-link:hover { color: var(--ink); border-color: var(--ink); }
 
+    html.dark .callout-btn:hover { background: #d4cfc8; color: var(--ink); }
+    html.dark .notify-btn:hover { background: #d4cfc8; color: var(--ink); }
+
     @keyframes rise {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -360,8 +363,12 @@
       .hero-desc { font-size: 15px; }
       .tools-grid { grid-template-columns: 1fr; }
       .tool-card { padding: 18px 18px; }
+      .cluster { padding: 0; }
+      .cluster-header { margin-bottom: 10px; }
       .ignorermore-callout { flex-direction: column; align-items: flex-start; padding: 20px 18px; }
+      .callout-btn { width: 100%; text-align: center; }
       .notify-section { padding: 22px 18px; }
+      .notify-btn { width: 100%; text-align: center; }
       .site-footer { flex-direction: column; align-items: flex-start; padding: 20px 18px 36px; }
       .footer-links { gap: 12px; }
     }
@@ -402,7 +409,7 @@
       <div class="hero-divider-line"></div>
     </div>
     <p class="hero-desc">
-      What we believe is shaped by who we are and who we surround ourselves with. These free, research-backed tools help you see those influences clearly, so you can navigate the information landscape more intentionally. Grounded in the research behind <a href="https://cup.columbia.edu/book/misguided/9780231205054" target="_blank">Misguided</a>.
+      What we believe is shaped by who we are and who we surround ourselves with. These free, research-backed tools help you navigate misinformation, understand your own biases, and protect your attention online, so you can engage with information more intentionally. Grounded in the research behind <a href="https://cup.columbia.edu/book/misguided/9780231205054" target="_blank">Misguided</a>.
     </p>
   </div>
 
@@ -425,19 +432,28 @@
         <div class="tool-desc">Assess how diverse your close network really is, and understand how the people around you shape the information that reaches you.</div>
         <div class="tool-insight">A homogeneous network is an invisible bias. This tool helps you see it.</div>
       </a>
-      <div class="tool-card soon">
-        <div class="tool-status">Coming soon</div>
-        <div class="tool-name">More tools</div>
-        <div class="tool-desc">More tools for understanding bias and building misinformation resilience in the works.</div>
-      </div>
+    </div>
+
+    <div class="cluster-header" style="margin-top:36px;">
+      <div class="cluster-label">Protect your attention</div>
+      <div class="cluster-rule"></div>
+    </div>
+    <p class="cluster-desc">Knowing what to ignore is as important as knowing what to engage with. These tools help you make that call in the moment.</p>
+    <div class="tools-grid">
+      <a class="tool-card live" href="https://critignore.com" target="_blank">
+        <div class="tool-status">Live</div>
+        <div class="tool-name">Critical Ignoring Companion</div>
+        <div class="tool-desc">Two tools in one: decide whether an online comment deserves a reply or is an attention trap, and fact-check a claim using lateral reading before you engage with it.</div>
+        <div class="tool-insight">Knowing what to ignore is a skill. This tool helps you build it.</div>
+      </a>
     </div>
   </div>
 
   <div class="ignorermore-callout">
     <div class="callout-left">
-      <div class="callout-label">Looking for the Critical Ignoring Companion?</div>
+      <div class="callout-label">More tools for protecting your attention</div>
       <div class="callout-title"><em>Ignore</em>More.com</div>
-      <div class="callout-desc">A dedicated suite of tools for filtering noise and protecting your attention online. Grounded in critical ignoring research.</div>
+      <div class="callout-desc">The home of the Critical Ignoring Companion and future tools for filtering noise online. Grounded in critical ignoring research.</div>
     </div>
     <a class="callout-btn" href="https://ignoremore.com/" target="_blank">Visit IgnoreMore →</a>
   </div>
@@ -446,14 +462,14 @@
     <div class="notify-title">Stay in the loop</div>
     <div class="notify-desc">New tools are announced in the Misguided newsletter. Subscribe and you'll be the first to know when something launches.</div>
     <a class="notify-btn" href="https://matthewfacciani.substack.com" target="_blank">Subscribe to Misguided →</a>
-    <div class="notify-note">No spam. Just research, tools, and science communication from Matthew Facciani, PhD.</div>
+    <div class="notify-note">No spam. Just research, tools, and science communication.</div>
   </div>
 
 </div>
 
 <div class="site-footer">
   <div class="footer-credit">
-    <a href="https://www.matthewfacciani.com" target="_blank">Matthew Facciani, PhD</a><br>
+    <a href="https://www.matthewfacciani.com" target="_blank">Matthew Facciani</a><br>
     Tools grounded in peer-reviewed research
   </div>
   <div class="footer-links">
