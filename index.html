@@ -323,6 +323,13 @@
 
     .tool-card-wide.live:hover .tool-card-wide-img { opacity: 1; }
 
+    /* Some screenshots are wider/shorter than the card and shouldn't be cropped */
+    .tool-card-wide-img.fit-contain {
+      object-fit: contain;
+      background: var(--bg-alt);
+      padding: 12px;
+    }
+
     /* ── Educator section ── */
     .educator-section {
       background: var(--bg-cream);
@@ -600,7 +607,7 @@
           <div class="tool-desc">Paste a claim, headline, or link and see whether it's already been fact-checked. Then get walked through who's behind it, where it started, and who else is saying it. Available as a browser extension, too.</div>
           <div class="tool-insight">Lateral reading is what fact-checkers actually do. No verdict handed to you, just the trail.</div>
         </div>
-        <img class="tool-card-wide-img" src="screenshot-read-laterally.png" alt="Read Laterally preview"/>
+        <img class="tool-card-wide-img fit-contain" src="screenshot-read-laterally.png" alt="Read Laterally preview"/>
       </div>
     </div>
 
